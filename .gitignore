@@ -1,0 +1,5 @@
+temp_*.xlsx
+master_config.xlsx
+.env
+__pycache__/
+*.pyc
