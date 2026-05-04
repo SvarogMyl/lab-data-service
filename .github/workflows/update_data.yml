@@ -24,12 +24,12 @@ jobs:
 
       - name: Ejecutar procesamiento de datos
         env:
-          EXCEL_SOURCE: ${{ secrets.EXCEL_SOURCE }} # URL secreta configurada en GitHub
+          MASTER_EXCEL_URL: ${{ secrets.MASTER_EXCEL_URL }} # URL del Excel Maestro configurada en GitHub
         run: python main.py
 
       - name: Commitear y subir cambios
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
-          git add data.json
+          git add outputs/ registry.json changelog.md # Asegurar que todo se trackea
           git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Actualización automática de stock: $(date +'%Y-%m-%d %H:%M')" && git push)

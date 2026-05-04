@@ -4,3 +4,4 @@
 | --- | --- | --- |
 | 2026-05-01 15:23:56 | Segundo Proyecto | Actualización de stock (450 registros) |
 | 2026-05-01 15:25:44 | Botica Municipal CMVA | Actualización de stock (450 registros) |
+| 2026-05-03 20:18:40 | Botica Municipal CMVA | Actualización de stock (450 registros) |

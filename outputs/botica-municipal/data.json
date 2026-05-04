@@ -1,7 +1,7 @@
 [
     {
         "CODIGO": "BM 0001",
-        "MEDICAMENTO": "AC ALENDRONICOXXX 70 MG",
+        "MEDICAMENTO": "AC ALENDRONICO 70 MG",
         "PRESENTACIÓN": "ALDROX 70 MG x 10 COMPRIMIDOS",
         "ESTADO": "Con stock",
         "ÚLTIMA ACTUALIZACIÓN": "01/05/2026"
@@ -1095,7 +1095,7 @@
         "CODIGO": "BM 0159",
         "MEDICAMENTO": "ENSURE TARRO 850 G (alt2)",
         "PRESENTACIÓN": "ENSURE FRUTILLA 850 G",
-        "ESTADO": "Con stock",
+        "ESTADO": "Sin stock",
         "ÚLTIMA ACTUALIZACIÓN": "01/05/2026"
     },
     {
