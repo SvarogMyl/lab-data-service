@@ -43,7 +43,7 @@
     },
     {
         "CODIGO": "BM 0009",
-        "MEDICAMENTO": "ACICLOVIR 5% CREMA",
+        "MEDICAMENTO": "ACICLOVIRxxxx 5% CREMA",
         "PRESENTACIÓN": "ACICLOVIR 5% CREMA",
         "ESTADO": "Sin stock",
         "ÚLTIMA ACTUALIZACIÓN": "01/05/2026"
@@ -66,14 +66,14 @@
         "CODIGO": "BM 0012",
         "MEDICAMENTO": "ACIDO MEFENAMICO 500 MG",
         "PRESENTACIÓN": "ACIDO MEFENAMICO 500 MG X 10",
-        "ESTADO": "Con stock",
+        "ESTADO": "Sin stock",
         "ÚLTIMA ACTUALIZACIÓN": "01/05/2026"
     },
     {
         "CODIGO": "BM 0013",
         "MEDICAMENTO": "AC VALPROICO 200 MG x 30",
         "PRESENTACIÓN": "ACIDO VALPROICO 200 MG x 30",
-        "ESTADO": "Con stock",
+        "ESTADO": "Sin stock",
         "ÚLTIMA ACTUALIZACIÓN": "01/05/2026"
     },
     {
