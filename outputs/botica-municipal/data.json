@@ -3,7 +3,7 @@
         "CODIGO": "BM 0001",
         "MEDICAMENTO": "AC ALENDRONICO 70 MG",
         "PRESENTACIÓN": "ALDROX 70 MG x 10 COMPRIMIDOS",
-        "ESTADO": "Con stock",
+        "ESTADO": "Sin stock",
         "ÚLTIMA ACTUALIZACIÓN": "01/05/2026"
     },
     {
@@ -31,21 +31,21 @@
         "CODIGO": "BM 0007",
         "MEDICAMENTO": "ACEOCUMAROL 4 MG X 30",
         "PRESENTACIÓN": "ISQUELIUM 4 MG x 30",
-        "ESTADO": "Con stock",
+        "ESTADO": "Sin stock",
         "ÚLTIMA ACTUALIZACIÓN": "01/05/2026"
     },
     {
         "CODIGO": "BM 0008",
         "MEDICAMENTO": "ACICLOVIR 400 MG x 32",
         "PRESENTACIÓN": "ACICLOVIR 400 MG X 32",
-        "ESTADO": "Con stock",
+        "ESTADO": "Sin stock",
         "ÚLTIMA ACTUALIZACIÓN": "01/05/2026"
     },
     {
         "CODIGO": "BM 0009",
         "MEDICAMENTO": "ACICLOVIR 5% CREMA",
         "PRESENTACIÓN": "ACICLOVIR 5% CREMA",
-        "ESTADO": "Con stock",
+        "ESTADO": "Sin stock",
         "ÚLTIMA ACTUALIZACIÓN": "01/05/2026"
     },
     {
