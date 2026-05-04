@@ -19,13 +19,13 @@ jobs:
 
       - name: Instalar dependencias
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r requirements.txt
 
       - name: Ejecutar procesamiento de datos
         env:
           MASTER_EXCEL_URL: ${{ secrets.MASTER_EXCEL_URL }} # URL del Excel Maestro configurada en GitHub
-        run: python main.py
+        run: python3 main.py
 
       - name: Commitear y subir cambios
         run: |
