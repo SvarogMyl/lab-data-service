@@ -10,21 +10,21 @@
         "CODIGO": "BM 0003",
         "MEDICAMENTO": "AC IBANDRONICO 150 MG",
         "PRESENTACIÓN": "IDENA 150 MG X 1 COMPrimido",
-        "ESTADO": "Con stock",
+        "ESTADO": "Sin stock",
         "ÚLTIMA ACTUALIZACIÓN": "01/05/2026"
     },
     {
         "CODIGO": "BM 0005",
         "MEDICAMENTO": "AC ACETILSALICILICO 100 MG",
         "PRESENTACIÓN": "AC ACETILSALICILICO 100 MG X 100",
-        "ESTADO": "Con stock",
+        "ESTADO": "Sin stock",
         "ÚLTIMA ACTUALIZACIÓN": "01/05/2026"
     },
     {
         "CODIGO": "BM 0006",
         "MEDICAMENTO": "ACIDO URSODEOXICOLICO 250 MG",
         "PRESENTACIÓN": "ACIDO URSODEOXICOLICO 250 MG",
-        "ESTADO": "Con stock",
+        "ESTADO": "Sin stock",
         "ÚLTIMA ACTUALIZACIÓN": "01/05/2026"
     },
     {
