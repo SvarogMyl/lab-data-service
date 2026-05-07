@@ -1,0 +1,23 @@
+[
+    {
+        "codigo": 101,
+        "nombre": "Producto A",
+        "descripcion": "Descripción del producto A",
+        "precio": 1500,
+        "stock": 20
+    },
+    {
+        "codigo": 102,
+        "nombre": "Producto B",
+        "descripcion": "Descripción del producto B",
+        "precio": 2500,
+        "stock": 15
+    },
+    {
+        "codigo": 103,
+        "nombre": "Producto C",
+        "descripcion": "Descripción del producto C",
+        "precio": 3500,
+        "stock": 10
+    }
+]

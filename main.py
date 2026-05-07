@@ -10,30 +10,22 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def normalize_url(url):
-    """Convierte links de compartir de Google Drive, OneDrive o SharePoint en links de descarga directa."""
+    """Convierte links de compartir en links de descarga directa."""
     if not isinstance(url, str):
         return url
-        
     url = url.strip()
-        
-    # --- GOOGLE DRIVE ---
-    gd_pattern = r'https://docs\.google\.com/spreadsheets/d/([a-zA-Z0-9-_]+)'
-    gd_match = re.search(gd_pattern, url)
+    # Google Drive
+    gd_match = re.search(r'https://docs\.google\.com/spreadsheets/d/([a-zA-Z0-9-_]+)', url)
     if gd_match:
-        file_id = gd_match.group(1)
-        return f"https://docs.google.com/spreadsheets/d/{file_id}/export?format=xlsx"
-    
-    # --- ONEDRIVE / SHAREPOINT ---
-    # Si es un link de OneDrive/SharePoint y no tiene el parámetro de descarga
-    if ("onedrive.live.com" in url or "1drv.ms" in url or "sharepoint.com" in url):
+        return f"https://docs.google.com/spreadsheets/d/{gd_match.group(1)}/export?format=xlsx"
+    # OneDrive / SharePoint
+    if any(domain in url for domain in ["onedrive.live.com", "1drv.ms", "sharepoint.com"]):
         if "download=1" not in url:
-            separator = "&" if "?" in url else "?"
-            return f"{url}{separator}download=1"
-    
+            return f"{url}{'&' if '?' in url else '?'}download=1"
     return url
 
 # Configuración
-MASTER_EXCEL_URL = normalize_url(os.getenv("MASTER_EXCEL_URL")) # Auto-normalizar master
+MASTER_EXCEL_URL = normalize_url(os.getenv("MASTER_EXCEL_URL"))
 SOURCES_FILE = "sources.json"
 REGISTRY_FILE = "registry.json"
 CHANGELOG_FILE = "changelog.md"
@@ -55,18 +47,15 @@ def save_registry(registry):
 def update_changelog(source_name, message):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     line = f"| {timestamp} | {source_name} | {message} |\n"
-    
     if not os.path.exists(CHANGELOG_FILE):
         with open(CHANGELOG_FILE, 'w', encoding='utf-8') as f:
-            f.write("# 📜 Historial de Cambios (Changelog)\n\n")
-            f.write("| Fecha/Hora | Proyecto | Descripción |\n")
-            f.write("| --- | --- | --- |\n")
-    
+            f.write("# 📜 Historial de Cambios (Changelog)\n\n| Fecha/Hora | Proyecto | Descripción |\n| --- | --- | --- |\n")
     with open(CHANGELOG_FILE, 'a', encoding='utf-8') as f:
         f.write(line)
 
 def get_sources():
-    """Obtiene la lista de fuentes desde el Excel Maestro o desde el archivo local."""
+    """Obtiene la lista de fuentes (id, url) desde el Excel Maestro o archivo local."""
+    sources = []
     if MASTER_EXCEL_URL:
         print(f"📥 Cargando configuración desde el Excel Maestro...")
         try:
@@ -74,39 +63,30 @@ def get_sources():
             resp.raise_for_status()
             with open("master_config.xlsx", "wb") as f:
                 f.write(resp.content)
-            
             df_master = pd.read_excel("master_config.xlsx")
-            sources = df_master.to_dict(orient='records')
+            df_master.columns = [str(c).strip().lower() for c in df_master.columns]
+            
+            # Solo nos interesan 'id' y 'url'
+            if 'id' in df_master.columns and 'url' in df_master.columns:
+                sources = df_master[['id', 'url']].dropna().to_dict(orient='records')
+            else:
+                print("⚠️ El Excel Maestro debe contener las columnas 'id' y 'url'.")
             
             os.remove("master_config.xlsx")
             return sources
         except Exception as e:
-            print(f"⚠️ Error cargando Excel Maestro: {e}. Usando backup local...")
+            print(f"⚠️ Error cargando Excel Maestro: {e}. Probando backup local...")
     
     if os.path.exists(SOURCES_FILE):
         with open(SOURCES_FILE, 'r') as f:
             return json.load(f)
-    
     return []
 
 def process_source(source, registry):
-    # Validar que los campos esenciales existan y no sean NaN
-    if pd.isna(source.get('id')) or pd.isna(source.get('url')):
-        return False
-        
     source_id = str(source['id']).strip()
-    source_name = source.get('name', source_id)
     url = normalize_url(source['url'])
-    sheet = source.get('sheet', 'Catálogo')
     
-    # Manejar SkipRows de forma segura
-    try:
-        skip_val = source.get('skiprows', 0)
-        skiprows = int(skip_val) if pd.notna(skip_val) and str(skip_val).isdigit() else 0
-    except:
-        skiprows = 0
-    
-    print(f"\n🔍 Procesando: {source_name}...")
+    print(f"\n🔍 Procesando: {source_id}...")
     
     try:
         response = requests.get(url)
@@ -117,56 +97,33 @@ def process_source(source, registry):
         last_hash = registry.get(source_id, {}).get("hash")
         
         if current_hash == last_hash:
-            print(f"⏩ Sin cambios para {source_name}.")
+            print(f"⏩ Sin cambios para {source_id}.")
             return False
 
         temp_file = f"temp_{source_id}.xlsx"
         with open(temp_file, 'wb') as f:
             f.write(content)
             
-        # Intento inicial con skiprows
-        df = pd.read_excel(temp_file, sheet_name=sheet, skiprows=skiprows)
-        df.columns = [str(c).strip().upper() for c in df.columns]
+        # Lectura Estándar (Cabecera en A1)
+        df = pd.read_excel(temp_file)
         
-        # Función para buscar la columna de código
-        def find_codigo_col(columns):
-            return next((c for c in columns if 'CODIGO' in c or 'CÓDIGO' in c), None)
-
-        col_codigo = find_codigo_col(df.columns)
-        
-        # Si no se encuentra, buscar automáticamente en las primeras 20 filas
-        if not col_codigo:
-            print(f"⚠️ No se encontró 'CODIGO' en la fila {skiprows}. Buscando automáticamente...")
-            full_df = pd.read_excel(temp_file, sheet_name=sheet, header=None, nrows=20)
-            for i, row in full_df.iterrows():
-                row_values = [str(v).strip().upper() for v in row.values]
-                if find_codigo_col(row_values):
-                    print(f"✨ ¡Encontrado! La cabecera real está en la fila {i + 1}.")
-                    df = pd.read_excel(temp_file, sheet_name=sheet, skiprows=i)
-                    df.columns = [str(c).strip().upper() for c in df.columns]
-                    col_codigo = find_codigo_col(df.columns)
-                    break
-        
-        if not col_codigo:
-            print(f"❌ Error: No se pudo localizar la columna 'CODIGO' en las primeras 20 filas.")
-            return False
-            
-        df = df[df[col_codigo].notna()]
+        # Limpieza básica: quitar filas y columnas completamente vacías
+        df = df.dropna(how='all').dropna(axis=1, how='all')
         
         target_dir = os.path.join(OUTPUT_DIR, source_id)
         os.makedirs(target_dir, exist_ok=True)
         
         output_path = os.path.join(target_dir, "data.json")
         data = df.to_dict(orient='records')
+        
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
             
         registry[source_id] = {
-            "name": source_name,
             "hash": current_hash,
             "last_updated": datetime.now().isoformat()
         }
-        update_changelog(source_name, f"Actualización de stock ({len(data)} registros)")
+        update_changelog(source_id, f"Actualización genérica ({len(data)} registros)")
         
         print(f"✅ ¡Actualizado! {output_path}")
         
@@ -175,7 +132,7 @@ def process_source(source, registry):
         return True
 
     except Exception as e:
-        print(f"❌ Error en {source_name}: {str(e)}")
+        print(f"❌ Error en {source_id}: {str(e)}")
         return False
 
 def main():
@@ -188,7 +145,6 @@ def main():
     changes_made = False
     
     for source in sources:
-        source = {k.lower(): v for k, v in source.items()}
         if process_source(source, registry):
             changes_made = True
             
