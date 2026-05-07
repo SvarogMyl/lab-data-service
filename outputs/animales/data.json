@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "categoria": "gato",
+        "nombre": "inara",
+        "tipo": "calico"
+    },
+    {
+        "id": 2,
+        "categoria": "gato",
+        "nombre": "bruno",
+        "tipo": "naranjoso"
+    },
+    {
+        "id": 3,
+        "categoria": "gato",
+        "nombre": "erizo",
+        "tipo": "romano"
+    },
+    {
+        "id": 4,
+        "categoria": "perro",
+        "nombre": "brina",
+        "tipo": "mezcla pitbul/boxer"
+    }
+]

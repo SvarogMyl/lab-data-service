@@ -5,8 +5,11 @@
         "last_updated": "2026-05-01T15:23:56.074105"
     },
     "botica-municipal": {
-        "name": "Botica Municipal CMVA",
-        "hash": "a281790a0f7681622d9d3d3a08303842",
-        "last_updated": "2026-05-07T03:01:05.121155"
+        "hash": "c39841a60d8adf68be14098dfd1a55ed",
+        "last_updated": "2026-05-07T04:04:43.518472"
+    },
+    "animales": {
+        "hash": "9cc697559f246541ad39849a3aeed09d",
+        "last_updated": "2026-05-07T04:04:45.814386"
     }
 }

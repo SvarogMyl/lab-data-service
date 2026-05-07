@@ -9,3 +9,5 @@
 | 2026-05-04 02:10:19 | Botica Municipal CMVA | Actualización de stock (450 registros) |
 | 2026-05-04 02:31:40 | Botica Municipal CMVA | Actualización de stock (450 registros) |
 | 2026-05-07 03:01:05 | Botica Municipal CMVA | Actualización de stock (450 registros) |
+| 2026-05-07 04:04:43 | botica-municipal | Actualización genérica (450 registros) |
+| 2026-05-07 04:04:45 | animales | Actualización genérica (4 registros) |
